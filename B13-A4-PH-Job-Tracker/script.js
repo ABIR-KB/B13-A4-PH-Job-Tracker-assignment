@@ -70,7 +70,7 @@ function renderJobs() {
     }).join('');
 }
 
-// Tab Switching Event Handlers
+
 tabButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         activeTab = e.target.getAttribute('data-tab');
@@ -85,6 +85,25 @@ tabButtons.forEach(button => {
         renderJobs();
     });
 });
+
+window.updateJobStatus = function(id, newStatus) {
+    const jobIndex = jobsData.findIndex(j => j.id === id);
+    if (jobIndex > -1) {
+        if (jobsData[jobIndex].status === newStatus) {
+            jobsData[jobIndex].status = 'unassigned';
+        } else {
+            jobsData[jobIndex].status = newStatus;
+        }
+        updateDashboardStats();
+        renderJobs();
+    }
+};
+
+window.deleteJob = function(id) {
+    jobsData = jobsData.filter(job => job.id !== id);
+    updateDashboardStats();
+    renderJobs();
+};
 
 function init() {
     updateDashboardStats();
