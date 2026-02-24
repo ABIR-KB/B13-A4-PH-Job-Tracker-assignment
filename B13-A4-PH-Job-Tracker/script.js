@@ -19,14 +19,14 @@ const jobsGrid = document.getElementById('jobs-grid');
 const emptyState = document.getElementById('empty-state');
 const tabButtons = document.querySelectorAll('.tab-btn');
 
-function renderJobs() {
-    let filteredJobs = [];
-    if (activeTab === 'all') {
-        filteredJobs = jobsData;
-    } else {
-        filteredJobs = jobsData.filter(job => job.status === activeTab);
-    }
+function updateDashboardStats() {
+    statTotal.textContent = jobsData.length;
+    statInterview.textContent = jobsData.filter(job => job.status === 'interview').length;
+    statRejected.textContent = jobsData.filter(job => job.status === 'rejected').length;
+}
 
+function renderJobs() {
+    let filteredJobs = activeTab === 'all' ? jobsData : jobsData.filter(job => job.status === activeTab);
     currentTabCount.textContent = filteredJobs.length;
 
     if (filteredJobs.length === 0) {
@@ -45,25 +45,17 @@ function renderJobs() {
 
         let badgeClass = 'default';
         let badgeText = 'NOT APPLIED';
-        if (isInterview) {
-            badgeClass = 'interview';
-            badgeText = 'INTERVIEWING';
-        } else if (isRejected) {
-            badgeClass = 'rejected';
-            badgeText = 'REJECTED';
-        }
+        if (isInterview) { badgeClass = 'interview'; badgeText = 'INTERVIEWING'; } 
+        else if (isRejected) { badgeClass = 'rejected'; badgeText = 'REJECTED'; }
 
         const interviewBtnClass = isInterview ? 'action-btn btn-interview active' : 'action-btn btn-interview';
         const rejectedBtnClass = isRejected ? 'action-btn btn-rejected active' : 'action-btn btn-rejected';
 
         return `
         <div class="job-card">
-            <button onclick="deleteJob(${job.id})" class="btn-delete" title="Delete Job">
-                <i class="ph ph-trash text-lg"></i>
-            </button>
+            <button onclick="deleteJob(${job.id})" class="btn-delete" title="Delete Job"><i class="ph ph-trash text-lg"></i></button>
             <div class="job-header">
-                <h3 class="job-title">${job.company}</h3>
-                <p class="job-role">${job.position}</p>
+                <h3 class="job-title">${job.company}</h3><p class="job-role">${job.position}</p>
             </div>
             <div class="job-meta">
                 <span>${job.location}</span><span>•</span><span>${job.type}</span><span>•</span><span>${job.salary}</span>
@@ -74,9 +66,13 @@ function renderJobs() {
                 <button onclick="updateJobStatus(${job.id}, 'interview')" class="${interviewBtnClass}">INTERVIEW</button>
                 <button onclick="updateJobStatus(${job.id}, 'rejected')" class="${rejectedBtnClass}">REJECTED</button>
             </div>
-        </div>
-        `;
+        </div>`;
     }).join('');
 }
 
-renderJobs();
+function init() {
+    updateDashboardStats();
+    renderJobs();
+}
+
+init();
