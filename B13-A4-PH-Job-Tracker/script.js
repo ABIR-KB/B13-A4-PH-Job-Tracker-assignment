@@ -70,6 +70,22 @@ function renderJobs() {
     }).join('');
 }
 
+// Tab Switching Event Handlers
+tabButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        activeTab = e.target.getAttribute('data-tab');
+        
+        tabButtons.forEach(btn => {
+            if (btn.getAttribute('data-tab') === activeTab) {
+                btn.className = 'tab-btn active';
+            } else {
+                btn.className = 'tab-btn';
+            }
+        });
+        renderJobs();
+    });
+});
+
 function init() {
     updateDashboardStats();
     renderJobs();
