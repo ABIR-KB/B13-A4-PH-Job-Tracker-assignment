@@ -4,13 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobDash | Applicant Tracking</title>
-    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main class="container">
-        <!-- Components will go here -->
+        <section>
+            <h1 class="page-title">Job Application Tracker</h1>
+            <div class="stats-wrapper">
+                <div class="stat-box">
+                    <p class="stat-label">Total</p>
+                    <p class="stat-value total" id="stat-total">0</p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-label">Interview</p>
+                    <p class="stat-value interview" id="stat-interview">0</p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-label">Rejected</p>
+                    <p class="stat-value rejected" id="stat-rejected">0</p>
+                </div>
+            </div>
+        </section>
     </main>
     <script src="script.js"></script>
 </body>
