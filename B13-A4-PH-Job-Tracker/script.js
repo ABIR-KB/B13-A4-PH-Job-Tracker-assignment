@@ -18,3 +18,65 @@ const currentTabCount = document.getElementById('current-tab-count');
 const jobsGrid = document.getElementById('jobs-grid');
 const emptyState = document.getElementById('empty-state');
 const tabButtons = document.querySelectorAll('.tab-btn');
+
+function renderJobs() {
+    let filteredJobs = [];
+    if (activeTab === 'all') {
+        filteredJobs = jobsData;
+    } else {
+        filteredJobs = jobsData.filter(job => job.status === activeTab);
+    }
+
+    currentTabCount.textContent = filteredJobs.length;
+
+    if (filteredJobs.length === 0) {
+        jobsGrid.innerHTML = '';
+        jobsGrid.style.display = 'none';
+        emptyState.style.display = 'flex';
+        return;
+    } else {
+        jobsGrid.style.display = 'flex';
+        emptyState.style.display = 'none';
+    }
+
+    jobsGrid.innerHTML = filteredJobs.map(job => {
+        const isInterview = job.status === 'interview';
+        const isRejected = job.status === 'rejected';
+
+        let badgeClass = 'default';
+        let badgeText = 'NOT APPLIED';
+        if (isInterview) {
+            badgeClass = 'interview';
+            badgeText = 'INTERVIEWING';
+        } else if (isRejected) {
+            badgeClass = 'rejected';
+            badgeText = 'REJECTED';
+        }
+
+        const interviewBtnClass = isInterview ? 'action-btn btn-interview active' : 'action-btn btn-interview';
+        const rejectedBtnClass = isRejected ? 'action-btn btn-rejected active' : 'action-btn btn-rejected';
+
+        return `
+        <div class="job-card">
+            <button onclick="deleteJob(${job.id})" class="btn-delete" title="Delete Job">
+                <i class="ph ph-trash text-lg"></i>
+            </button>
+            <div class="job-header">
+                <h3 class="job-title">${job.company}</h3>
+                <p class="job-role">${job.position}</p>
+            </div>
+            <div class="job-meta">
+                <span>${job.location}</span><span>•</span><span>${job.type}</span><span>•</span><span>${job.salary}</span>
+            </div>
+            <div class="badge ${badgeClass}">${badgeText}</div>
+            <p class="job-desc">${job.description}</p>
+            <div class="job-actions">
+                <button onclick="updateJobStatus(${job.id}, 'interview')" class="${interviewBtnClass}">INTERVIEW</button>
+                <button onclick="updateJobStatus(${job.id}, 'rejected')" class="${rejectedBtnClass}">REJECTED</button>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
+
+renderJobs();
