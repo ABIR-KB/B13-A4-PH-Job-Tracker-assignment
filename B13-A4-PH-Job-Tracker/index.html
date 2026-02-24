@@ -1,32 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobDash | Applicant Tracking</title>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <main class="container">
-        <section>
-            <h1 class="page-title">Job Application Tracker</h1>
-            <div class="stats-wrapper">
-                <div class="stat-box">
-                    <p class="stat-label">Total</p>
-                    <p class="stat-value total" id="stat-total">0</p>
-                </div>
-                <div class="stat-box">
-                    <p class="stat-label">Interview</p>
-                    <p class="stat-value interview" id="stat-interview">0</p>
-                </div>
-                <div class="stat-box">
-                    <p class="stat-label">Rejected</p>
-                    <p class="stat-value rejected" id="stat-rejected">0</p>
-                </div>
+      <section>
+        <h1 class="page-title">Job Application Tracker</h1>
+        <div class="stats-wrapper">
+          <div class="stat-box">
+            <p class="stat-label">Total</p>
+            <p class="stat-value total" id="stat-total">0</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-label">Interview</p>
+            <p class="stat-value interview" id="stat-interview">0</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-label">Rejected</p>
+            <p class="stat-value rejected" id="stat-rejected">0</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board-section">
+        <div>
+          <div class="board-header">
+            <h2 class="board-title">Available Jobs</h2>
+            <div class="board-count">
+              <span id="current-tab-count">0</span> jobs
             </div>
-        </section>
+          </div>
+
+          <div class="tabs-container" id="tabs-container">
+            <button data-tab="all" class="tab-btn active">All</button>
+            <button data-tab="interview" class="tab-btn">Interview</button>
+            <button data-tab="rejected" class="tab-btn">Rejected</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 0.5rem">
+          <div id="jobs-grid" class="jobs-grid"></div>
+
+          <div id="empty-state" class="empty-state">
+            <img src="jobs.png" alt="No Jobs Icon" class="empty-image" />
+            <h3 class="empty-title">No jobs Available</h3>
+            <p class="empty-desc">
+              There are currently no jobs matching this category.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
